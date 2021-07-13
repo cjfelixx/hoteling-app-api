@@ -23,11 +23,11 @@ if (config.env !== 'test') {
 // set security HTTP headers
 app.use(helmet());
 
-// parse json request body
-app.use(express.json());
-
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
+
+// parse json request body
+app.use(express.json());
 
 // sanitize request data
 app.use(xss());

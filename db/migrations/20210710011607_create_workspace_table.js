@@ -6,8 +6,8 @@ exports.up = async (knex) => {
     if (!tableExists) {
       await knex.schema.createTable(tableName, (table) => {
         table.increments('workspaceid');
-        table.string('description').notNullable();
-        table.boolean('is_available').notNullable();
+        table.string('description');
+        table.boolean('is_active').notNullable().default(true);
       });
     }
     return Promise.resolve();

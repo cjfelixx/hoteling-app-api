@@ -33,7 +33,7 @@ const createUser = async (userBody) => {
  * Query for users
  * @returns {Promise<QueryResult>}
  */
-const queryUsers = async (filter, options) => {
+const queryUsers = async () => {
   // TODO: Add pagination
   const users = await database('user').select('*');
   return keysToCamel(users);

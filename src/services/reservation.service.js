@@ -10,20 +10,23 @@ const keysToSnake = require('../utils/keysToSnake');
  * @returns {Promise<Reservation>}
  */
 const createReservation = async (reservationBody) => {
-  const foundReservation = await database('reservation').where({ id: reservationBody.id });
-  const occupiedReservations = await database('reservation').where({ start_date: reservationBody.start_date });
+  const occupiedReservations = await database('reservation')
+    .where({ workspaceid: reservationBody.workspaceId })
+    .where('start_date', '<', reservationBody.endDate)
+    .andWhere('end_date', '>', reservationBody.startDate);
 
   if (occupiedReservations.length !== 0) {
     throw new Error(`Already Reserved`);
   }
-  if (foundReservation.length > 0) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Already Reserved');
-  }
+
   const now = new Date();
 
   const Reservation = await database('reservation')
     .insert({
-      ...keysToSnake(reservationBody),
+      userid: reservationBody.userId,
+      workspaceid: reservationBody.workspaceId,
+      start_date: new Date(reservationBody.startDate),
+      end_date: new Date(reservationBody.endDate),
       created_at: now,
       updated_at: now,
     })
@@ -35,7 +38,7 @@ const createReservation = async (reservationBody) => {
  * Query for Reservations
  * @returns {Promise<QueryResult>}
  */
-const queryReservations = async (filter,options) => {
+const queryReservations = async () => {
   // TODO: Add pagination
   const Reservations = await database('reservation').select('*');
   return keysToCamel(Reservations);
@@ -57,16 +60,16 @@ const getReservationById = async (reservationid) => {
  * @param {Object} updateBody
  * @returns {Promise<Reservation>}
  */
-const updateReservationById = async (id, updateBody) => {
-  const Reservation = await database('reservation').where({ id });
+const updateReservationById = async (reservationid, updateBody) => {
+  const Reservation = await database('reservation').where({ reservationid });
   if (!Reservation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Reservation not found');
   }
-  if (updateBody.email && (await database('reservation').where({ email: updateBody.email })).length > 0) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  if (updateBody.workspaceid && (await database('workspace').where({ workspaceid: updateBody.workspaceid })).length > 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Reservation already taken');
   }
   const updatedReservation = await database('reservation')
-    .where({ id })
+    .where({ reservationid })
     .update({
       ...keysToSnake(updateBody),
       updated_at: new Date(),

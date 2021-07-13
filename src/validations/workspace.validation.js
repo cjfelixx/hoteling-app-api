@@ -1,22 +1,18 @@
 const Joi = require('joi');
-const { join } = require('lodash');
 
 const createWorkspace = {
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    workspaceId: Joi.number().required(),
-    startDate: Joi.date().required(),
-    endDate: Joi.date().required(),
+    description: Joi.string(),
   }),
 };
 
 const getWorkspaces = {
   query: Joi.object().keys({
     workspaceId: Joi.string(),
-    sortBy: Joi.string(),
-    limit: Joi.number().integer(),
-    page: Joi.number().integer(),
-    populate: join.string(),
+    // sortBy: Joi.string(),
+    // limit: Joi.number().integer(),
+    // page: Joi.number().integer(),
+    // populate: join.string(),
   }),
 };
 
@@ -32,9 +28,7 @@ const updateWorkspace = {
   }),
   body: Joi.object()
     .keys({
-      workspaceId: Joi.number(),
-      startDate: Joi.date(),
-      endDate: Joi.date(),
+      isActive: Joi.boolean().required(),
     })
     .min(1),
 };

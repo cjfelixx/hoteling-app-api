@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const { join } = require('lodash');
 const { password } = require('./custom.validation');
 
 const createUser = {
@@ -15,11 +14,11 @@ const createUser = {
 const getUsers = {
   query: Joi.object().keys({
     name: Joi.string(),
-    role: join.string(),
-    sortBy: Joi.string(),
-    limit: Joi.number().integer(),
-    page: Joi.number().integer(),
-    populate: join.string(),
+    role: Joi.string(),
+    // sortBy: Joi.string(),
+    // limit: Joi.number().integer(),
+    // page: Joi.number().integer(),
+    // populate: join.string(),
   }),
 };
 
