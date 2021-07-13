@@ -1,16 +1,26 @@
 const Joi = require('joi');
+const { join } = require('lodash');
+const { password } = require('./custom.validation');
 
 const createUser = {
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
+    email: Joi.string().required().email(),
+    password: Joi.string().required().custom(password),
     role: Joi.string().required().valid('user', 'admin'),
   }),
 };
 
 const getUsers = {
-  query: Joi.object().keys({}),
+  query: Joi.object().keys({
+    name: Joi.string(),
+    role: join.string(),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+    populate: join.string(),
+  }),
 };
 
 const getUser = {
@@ -25,9 +35,10 @@ const updateUser = {
   }),
   body: Joi.object()
     .keys({
-      email: Joi.string().email(),
       firstName: Joi.string(),
       lastName: Joi.string(),
+      email: Joi.string().email(),
+      password: Joi.string().custom(password),
     })
     .min(1),
 };
