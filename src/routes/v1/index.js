@@ -11,6 +11,6 @@ router.use('/users', userRoute);
 router.use('/docs', docsRoute);
 router.use('/auth', authRoute);
 router.use('/workspaces', workspaceRoute);
-router.use('/reservations', reservationRoute);
+router.use('/reserve', reservationRoute);
 
 module.exports = router;
