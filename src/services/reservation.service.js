@@ -45,6 +45,20 @@ const queryReservations = async () => {
 };
 
 /**
+ * Query for Available Reservations
+ * @returns {Promise<QueryResult>}
+ */
+
+const queryAvailableReservations = async (reservationBody) => {
+  const reservationSubquery = database('reservation')
+    .where('start_date', '<=', reservationBody.endDate)
+    .andWhere('end_date', '>=', reservationBody.startDate)
+    .select('workspaceid');
+  const availableReservations = await database('workspace').where('workspaceid', 'not in', reservationSubquery);
+  return keysToCamel(availableReservations);
+};
+
+/**
  * Get Reservation by id
  * @param {number} id
  * @returns {Promise<Reservation>}
@@ -95,6 +109,7 @@ const deleteReservationById = async (reservationid) => {
 module.exports = {
   createReservation,
   queryReservations,
+  queryAvailableReservations,
   getReservationById,
   updateReservationById,
   deleteReservationById,

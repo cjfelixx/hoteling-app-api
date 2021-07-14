@@ -8,7 +8,7 @@ const createWorkspace = {
 
 const getWorkspaces = {
   query: Joi.object().keys({
-    workspaceId: Joi.string(),
+    workspaceId: Joi.number(),
     // sortBy: Joi.string(),
     // limit: Joi.number().integer(),
     // page: Joi.number().integer(),
