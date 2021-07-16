@@ -5,7 +5,6 @@ const userService = require('./user.service');
 const ApiError = require('../utils/ApiError');
 const database = require('../config/knex');
 const { tokenTypes } = require('../config/tokens');
-const keysToCamel = require('../utils/keysToCamel');
 
 /**
  * Login with username and password
@@ -30,11 +29,11 @@ const logout = async (refreshToken) => {
   const refreshTokenDoc = await database('tokens')
     .where({ token: refreshToken })
     .where({ type: tokenTypes.REFRESH })
-    .where({ blacklisted: false });
+    .where({ blacklisted: false })
+    .del();
   if (!refreshTokenDoc) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
   }
-  await keysToCamel(refreshTokenDoc).remove();
 };
 
 /**

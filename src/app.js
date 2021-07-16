@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const nocache = require('nocache');
 const xss = require('xss-clean');
 const compression = require('compression');
 const cors = require('cors');
@@ -22,12 +23,13 @@ if (config.env !== 'test') {
 
 // set security HTTP headers
 app.use(helmet());
-
-// parse urlencoded request body
-app.use(express.urlencoded({ extended: true }));
+app.use(nocache());
 
 // parse json request body
 app.use(express.json());
+
+// parse urlencoded request body
+app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data
 app.use(xss());
