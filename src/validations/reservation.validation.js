@@ -4,18 +4,20 @@ const createReservation = {
   body: Joi.object().keys({
     userId: Joi.number().required(),
     workspaceId: Joi.number().required(),
-    startDate: Joi.date().greater('now').less(Joi.ref('endDate')).required(),
-    endDate: Joi.date().greater('now').required(),
+    startDate: Joi.date().greater('now').required(),
+    endDate: Joi.date().greater('now').min(Joi.ref('startDate')).required(),
   }),
 };
 
 const getReservations = {
   query: Joi.object().keys({
     reservationId: Joi.number(),
-    // sortBy: Joi.string(),
-    // limit: Joi.number().integer(),
-    // page: Joi.number().integer(),
-    // populate: join.string(),
+  }),
+};
+
+const getUserReservations = {
+  query: Joi.object().keys({
+    userId: Joi.number(),
   }),
 };
 
@@ -54,6 +56,7 @@ const deleteReservation = {
 module.exports = {
   createReservation,
   getReservations,
+  getUserReservations,
   getAvailableReservations,
   getReservation,
   updateReservation,

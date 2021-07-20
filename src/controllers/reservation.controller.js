@@ -15,6 +15,11 @@ const getReservations = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getUserReservations = catchAsync(async (req, res) => {
+  const result = await reservationService.queryReservationByUser(req.params.userId);
+  res.send(result);
+});
+
 const getAvailableReservations = catchAsync(async (req, res) => {
   const result = await reservationService.queryAvailableReservations(req.body);
   res.send(result);
@@ -41,6 +46,7 @@ const deleteReservation = catchAsync(async (req, res) => {
 module.exports = {
   createReservation,
   getReservations,
+  getUserReservations,
   getAvailableReservations,
   getReservation,
   updateReservation,

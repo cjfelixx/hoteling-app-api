@@ -69,6 +69,16 @@ const getReservationById = async (reservationid) => {
 };
 
 /**
+ * Get Reservation by userid
+ * @param {number} id
+ * @returns {Promise<Reservation>}
+ */
+const queryReservationByUser = async (userid) => {
+  const Reservation = await database('reservation').where({ userid }).select('*');
+  return keysToCamel(Reservation);
+};
+
+/**
  * Update Reservation by id
  * @param {number} id
  * @param {Object} updateBody
@@ -111,6 +121,7 @@ module.exports = {
   queryReservations,
   queryAvailableReservations,
   getReservationById,
+  queryReservationByUser,
   updateReservationById,
   deleteReservationById,
 };
