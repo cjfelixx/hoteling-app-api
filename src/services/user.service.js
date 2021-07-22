@@ -60,16 +60,20 @@ const getUserByEmail = async (email) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateUserById = async (id, updateBody) => {
-  const user = await database('user').where({ id });
+const updateUserById = async (userid, updateBody) => {
+  const user = await database('user').where({ userid });
+  const ownEmail = await database('user').where({ userid }).select('email');
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  if (updateBody.email && (await database('user').where({ email: updateBody.email })).length > 0) {
+  if (
+    updateBody.email &&
+    (await database('user').where({ email: updateBody.email }).whereNot({ email: ownEmail[0].email })).length > 0
+  ) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
   const updatedUser = await database('user')
-    .where({ id })
+    .where({ userid })
     .update({
       ...keysToSnake(updateBody),
       updated_at: new Date(),

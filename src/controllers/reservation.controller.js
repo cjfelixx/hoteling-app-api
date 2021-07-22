@@ -10,7 +10,6 @@ const createReservation = catchAsync(async (req, res) => {
 });
 
 const getReservations = catchAsync(async (req, res) => {
-  // TODO: add pagination
   const result = await reservationService.queryReservations();
   res.send(result);
 });

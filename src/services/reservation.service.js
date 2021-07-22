@@ -39,8 +39,8 @@ const createReservation = async (reservationBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryReservations = async () => {
-  // TODO: Add pagination
-  const Reservations = await database('reservation').select('*');
+  const now = new Date();
+  const Reservations = await database('reservation').where('end_date', '>=', now).select('*');
   return keysToCamel(Reservations);
 };
 
@@ -74,7 +74,8 @@ const getReservationById = async (reservationid) => {
  * @returns {Promise<Reservation>}
  */
 const queryReservationByUser = async (userid) => {
-  const Reservation = await database('reservation').where({ userid }).select('*');
+  const now = new Date();
+  const Reservation = await database('reservation').where({ userid }).where('end_date', '>=', now).select('*');
   return keysToCamel(Reservation);
 };
 

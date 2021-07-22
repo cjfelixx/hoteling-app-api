@@ -5,7 +5,10 @@ const reservationController = require('../../controllers/reservation.controller'
 
 const router = express.Router();
 
-router.route('/').post(validate(reservationValidation.createReservation), reservationController.createReservation);
+router
+  .route('/')
+  .post(validate(reservationValidation.createReservation), reservationController.createReservation)
+  .get(validate(reservationValidation.getReservations), reservationController.getReservations);
 
 router
   .route('/schedule')
