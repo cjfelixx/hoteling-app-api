@@ -31,12 +31,14 @@ const getAvailableReservations = {
 const getReservation = {
   params: Joi.object().keys({
     reservationId: Joi.number(),
+    userId: Joi.number(),
   }),
 };
 
 const updateReservation = {
   params: Joi.object().keys({
     reservationId: Joi.number(),
+    userId: Joi.number(),
   }),
   body: Joi.object()
     .keys({
@@ -50,6 +52,7 @@ const updateReservation = {
 const deleteReservation = {
   params: Joi.object().keys({
     reservationId: Joi.number(),
+    userId: Joi.number(),
   }),
 };
 

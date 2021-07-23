@@ -40,7 +40,16 @@ const createReservation = async (reservationBody) => {
  */
 const queryReservations = async () => {
   const now = new Date();
-  const Reservations = await database('reservation').where('end_date', '>=', now).select('*');
+  const Reservations = await database('reservation')
+    .innerJoin('user', 'reservation.userid', 'user.userid')
+    .where('end_date', '>=', now)
+    .select([
+      'reservation.workspaceid',
+      'user.first_name',
+      'user.last_name',
+      'reservation.start_date',
+      'reservation.end_date',
+    ]);
   return keysToCamel(Reservations);
 };
 
@@ -90,9 +99,15 @@ const updateReservationById = async (reservationid, updateBody) => {
   if (!Reservation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Reservation not found');
   }
-  if (updateBody.workspaceid && (await database('workspace').where({ workspaceid: updateBody.workspaceid })).length > 0) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Reservation already taken');
+
+  const occupiedReservations = await database('reservation')
+    .where('start_date', '<', updateBody.endDate)
+    .andWhere('end_date', '>', updateBody.startDate);
+
+  if (occupiedReservations.length !== 0) {
+    throw new Error(`Already Reserved`);
   }
+
   const updatedReservation = await database('reservation')
     .where({ reservationid })
     .update({

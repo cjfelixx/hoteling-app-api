@@ -25,7 +25,7 @@ const getAvailableReservations = catchAsync(async (req, res) => {
 });
 
 const getReservation = catchAsync(async (req, res) => {
-  const reservation = await reservationService.getReservationById(req.params.reservationid);
+  const reservation = await reservationService.getReservationById(req.params.reservationId);
   if (!reservation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Reservation not found');
   }
@@ -33,12 +33,12 @@ const getReservation = catchAsync(async (req, res) => {
 });
 
 const updateReservation = catchAsync(async (req, res) => {
-  const reservation = await reservationService.updateReservationById(req.params.reservationid, req.body);
+  const reservation = await reservationService.updateReservationById(req.params.reservationId, req.body);
   res.send(reservation);
 });
 
 const deleteReservation = catchAsync(async (req, res) => {
-  await reservationService.deleteReservationById(req.params.reservationid);
+  await reservationService.deleteReservationById(req.params.reservationId);
   res.status(httpStatus.NO_CONTENT).send();
 });
 

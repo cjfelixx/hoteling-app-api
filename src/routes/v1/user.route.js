@@ -21,6 +21,12 @@ router
 router
   .route('/:userId/reservations')
   .get(validate(reservationValidation.getUserReservations), reservationController.getUserReservations);
+
+router
+  .route('/:userId/reservations/:reservationId')
+  .get(validate(reservationValidation.getReservation), reservationController.getReservation)
+  .patch(validate(reservationValidation.updateReservation), reservationController.updateReservation)
+  .delete(validate(reservationValidation.deleteReservation), reservationController.deleteReservation);
 module.exports = router;
 
 /**
