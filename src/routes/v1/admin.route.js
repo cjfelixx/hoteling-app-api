@@ -12,7 +12,7 @@ const router = express.Router();
 router.route('/users').get(validate(userValidation.getUsers), userController.getUsers);
 
 router
-  .route('/:userId')
+  .route('/users/:userId')
   .get(validate(userValidation.getUser), userController.getUser)
   .post(validate(userValidation.updateUser))
   .patch(validate(userValidation.updateUser), userController.updateUser)
@@ -24,7 +24,7 @@ router
   .post(validate(workspaceValidation.createWorkspace), workspaceController.createWorkspace);
 
 router
-  .route('/:workspaceId')
+  .route('/workspaces/:workspaceId')
   .get(validate(workspaceValidation.getWorkspace), workspaceController.getWorkspace)
   .patch(validate(workspaceValidation.updateWorkspace), workspaceController.updateWorkspace)
   .delete(validate(workspaceValidation.deleteWorkspace), workspaceController.deleteWorkspace);
@@ -35,7 +35,7 @@ router
   .get(validate(reservationValidation.getReservations), reservationController.getReservations);
 
 router
-  .route('/:reservationId')
+  .route('/reservations/:reservationId')
   .get(validate(reservationValidation.getReservation), reservationController.getReservation)
   .patch(validate(reservationValidation.updateReservation), reservationController.updateReservation)
   .delete(validate(reservationValidation.deleteReservation), reservationController.deleteReservation);
