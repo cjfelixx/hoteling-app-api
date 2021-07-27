@@ -15,7 +15,7 @@ router
   .route('/users/:userId')
   .get(validate(userValidation.getUser), userController.getUser)
   .post(validate(userValidation.updateUser))
-  .patch(validate(userValidation.updateUser), userController.updateUser)
+  .patch(validate(userValidation.updateUserAsAdmin), userController.updateUser)
   .delete(validate(userValidation.deleteUser), userController.deleteUser);
 
 router

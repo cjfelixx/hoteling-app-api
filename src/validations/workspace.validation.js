@@ -28,6 +28,7 @@ const updateWorkspace = {
   }),
   body: Joi.object()
     .keys({
+      description: Joi.string(),
       isActive: Joi.boolean().required(),
     })
     .min(1),

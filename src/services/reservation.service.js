@@ -18,6 +18,12 @@ const createReservation = async (reservationBody) => {
   if (occupiedReservations.length !== 0) {
     throw new Error(`Already Reserved`);
   }
+  const active = await database('workspace')
+    .where({ workspaceid: reservationBody.workspaceId })
+    .select('workspace.is_active');
+  if (active[0].is_active === false) {
+    throw new Error(`Workspace is inactive`);
+  }
 
   const now = new Date();
 
@@ -44,6 +50,7 @@ const queryReservations = async () => {
     .innerJoin('user', 'reservation.userid', 'user.userid')
     .where('end_date', '>=', now)
     .select([
+      'reservation.reservationid',
       'reservation.workspaceid',
       'user.first_name',
       'user.last_name',

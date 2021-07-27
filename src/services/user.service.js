@@ -7,6 +7,7 @@ const keysToSnake = require('../utils/keysToSnake');
 
 /**
  * Create a user
+ *
  * @param {Object} userBody
  * @returns {Promise<User>}
  */

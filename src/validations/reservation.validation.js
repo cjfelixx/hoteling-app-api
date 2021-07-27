@@ -4,8 +4,8 @@ const createReservation = {
   body: Joi.object().keys({
     userId: Joi.number().required(),
     workspaceId: Joi.number().required(),
-    startDate: Joi.date().greater('now').required(),
-    endDate: Joi.date().greater('now').min(Joi.ref('startDate')).required(),
+    startDate: Joi.date().min('now').required(),
+    endDate: Joi.date().min(Joi.ref('startDate')).required(),
   }),
 };
 
@@ -23,7 +23,7 @@ const getUserReservations = {
 
 const getAvailableReservations = {
   body: Joi.object().keys({
-    startDate: Joi.date().greater('now').required(),
+    startDate: Joi.date().min('now').required(),
     endDate: Joi.date().min(Joi.ref('startDate')).required(),
   }),
 };
