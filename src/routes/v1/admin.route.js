@@ -6,6 +6,8 @@ const workspaceValidation = require('../../validations/workspace.validation');
 const workspaceController = require('../../controllers/workspace.controller');
 const reservationValidation = require('../../validations/reservation.validation');
 const reservationController = require('../../controllers/reservation.controller');
+const adminValidation = require('../../validations/admin.validation');
+const adminController = require('../../controllers/admin.controller');
 
 const router = express.Router();
 
@@ -39,5 +41,9 @@ router
   .get(validate(reservationValidation.getReservation), reservationController.getReservation)
   .patch(validate(reservationValidation.updateReservation), reservationController.updateReservation)
   .delete(validate(reservationValidation.deleteReservation), reservationController.deleteReservation);
+
+router.route('/new-bookings').get(validate(adminValidation.getBookings), adminController.getNewBookings);
+router.route('/bookings-week').get(validate(adminValidation.getBookings), adminController.getWeeklyBookings);
+router.route('/users-today').get(validate(adminValidation.getUsersToday), adminController.getUsersToday);
 
 module.exports = router;

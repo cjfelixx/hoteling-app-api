@@ -56,6 +56,8 @@ const queryReservations = async () => {
       'user.last_name',
       'reservation.start_date',
       'reservation.end_date',
+      'reservation.created_at',
+      'reservation.updated_at',
     ]);
   return keysToCamel(Reservations);
 };
